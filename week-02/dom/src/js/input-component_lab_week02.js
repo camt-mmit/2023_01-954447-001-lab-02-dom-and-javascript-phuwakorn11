@@ -1,4 +1,4 @@
-function createComponent(componentElement) {
+export function createComponent(componentElement) {
   const tmpInput = componentElement.querySelector("template.app-tmp-input");
   const inputsList = tmpInput.parentElement;
 
@@ -68,6 +68,47 @@ function createComponent(componentElement) {
   createElement();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  createComponent(document.body);
-});
+export function createSection(sectionElement) {
+  const tmpSection = sectionElement.querySelector("template.app-tmp-section");
+  const sectionsList = tmpSection.parentElement;
+
+  const updateList = () => {
+    const children = [...sectionsList.children].filter(
+      (elem) => elem != tmpSection
+    );
+
+    children.forEach((element, i) => {
+      [...element.querySelectorAll(".app-cmp-section-no")].forEach(
+        (elem) => (elem.textContent = `${i + 1}`)
+      );
+    });
+
+    [...sectionsList.querySelectorAll(".app-cmd-remove-section")].forEach(
+      (elem) => (elem.disabled = children.length === 1)
+    );
+  };
+
+  const createSection = () => {
+    const container = tmpSection.content.cloneNode(true).firstElementChild;
+
+    container.addEventListener("click", (e) => {
+      if (e.target.matches(".app-cmd-remove-section")) {
+        container.remove();
+
+        updateList();
+      }
+    });
+
+    sectionsList.append(container);
+    createComponent(container);
+    updateList();
+  };
+
+  sectionElement.addEventListener("click", (e) => {
+    if (e.target.matches(".app-cmd-add-section")) {
+      createSection();
+    }
+  });
+
+  createSection();
+}

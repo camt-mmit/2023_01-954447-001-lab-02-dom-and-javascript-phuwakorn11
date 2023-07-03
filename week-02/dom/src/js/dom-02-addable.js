@@ -1,4 +1,5 @@
 function createElement() {
+  //Create Elements
   const container = document.createElement("div");
   const label = document.createElement("label");
   const title = document.createElement("b");
@@ -8,9 +9,10 @@ function createElement() {
     ...document.querySelectorAll('input[type="number"].app-cmp-input'),
   ];
 
-  title.textContent = `Number ${inputElements.length + 1}`;
+  title.textContent = `Number ${inputElements.length + 1}: `;
+
   input.type = "number";
-  input.setAttribute("value", "0");
+  input.setAttribute("value", "0"); // input.defaultValue = '0';
   input.classList.add("app-cmp-input");
 
   input.addEventListener("change", () => {
@@ -26,6 +28,7 @@ function createElement() {
   label.append(title);
   label.append(input);
   container.append(label);
+
   return container;
 }
 
