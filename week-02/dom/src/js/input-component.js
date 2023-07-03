@@ -14,6 +14,7 @@ export function createComponent(componentElement) {
           .valueAsNumber,
       0
     );
+
     [...componentElement.querySelectorAll("output.app-cmp-result")].forEach(
       (elem) => (elem.value = `${result.toLocaleString()}`)
     );
@@ -25,6 +26,7 @@ export function createComponent(componentElement) {
     const children = [...inputsList.children].filter(
       (elem) => elem !== tmpInput
     );
+
     children.forEach((element, i) => {
       [...element.querySelectorAll(".app-cmp-input-no")].forEach(
         (elem) => (elem.textContent = `${i + 1}`)
@@ -39,27 +41,29 @@ export function createComponent(componentElement) {
   const createElement = () => {
     const container = tmpInput.content.cloneNode(true).firstElementChild;
 
-    container.addEventListener("click", (ev) => {
-      if (ev.target.matches(".app-cmd-remove-input")) {
+    container.addEventListener("click", (e) => {
+      if (e.target.matches(".app-cmd-remove-input")) {
         container.remove();
 
         updateList();
       }
     });
+
     inputsList.append(container);
     updateList();
   };
 
-  componentElement.addEventListener("click", (ev) => {
-    if (ev.target.matches(".app-cmd-add-input")) {
+  componentElement.addEventListener("click", (e) => {
+    if (e.target.matches(".app-cmd-add-input")) {
       createElement();
     }
   });
 
-  inputsList.addEventListener("change", (ev) => {
-    if (ev.target.matches('input[type="number"].app-cmp-input')) {
+  inputsList.addEventListener("change", (e) => {
+    if (e.target.matches('input[type="number"].app-cmp-input')) {
       updateResult();
     }
   });
+
   createElement();
 }
